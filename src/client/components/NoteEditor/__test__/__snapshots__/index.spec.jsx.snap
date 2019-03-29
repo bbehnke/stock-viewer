@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoteEditor tests renders note editor 1`] = `
+<NoteEditor
+  note={
+    Object {
+      "id": 1,
+      "value": "test_value",
+    }
+  }
+  onSaveClick={[Function]}
+>
+  <div
+    className="note-editor"
+  >
+    <form
+      className="note-editor-form"
+      onSubmit={[Function]}
+    >
+      <textarea
+        className="note-editor-text-area"
+        onChange={[Function]}
+        value="test_value"
+      />
+      <button
+        className="note-editor-submit"
+        type="submit"
+      >
+        Save note
+      </button>
+    </form>
+  </div>
+</NoteEditor>
+`;
