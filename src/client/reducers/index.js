@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import notes from './Notes';
+import stock from './Stock';
 import page from './Page';
 
 const rootReducers = combineReducers({
-  notes,
+  stock,
   page
 });
 

@@ -1,4 +1,4 @@
-# notes
+# stock-viewer
 Simple standalone stock-viewer web app built with ReactJS and Express.
 
 # Install and use

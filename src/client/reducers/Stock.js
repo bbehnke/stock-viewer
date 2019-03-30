@@ -1,9 +1,9 @@
 export default (state = [], action) => {
   const { type, data } = action;
   switch (type) {
-    case 'SET_NOTES':
+    case 'SET_STOCK':
       return [
-        ...data.notes
+        ...data.stock
       ];
     default:
       return state;

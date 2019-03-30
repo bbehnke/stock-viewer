@@ -1,14 +1,14 @@
 import { put, call } from 'redux-saga/effects';
-import { updateNote as updateNotePost } from '../fetches';
-import { notes as noteActions, page as pageActions } from '../actions';
+import { getStock } from '../fetches';
+import { stock as stockActions, page as pageActions } from '../actions';
 
-export default function* updateNote({ data: { id, value } }) {
+export default function* initializeNotes() {
   try {
     yield put(pageActions.setLoading(true));
     const {
       data,
       error
-    } = yield call(updateNotePost, id, value);
+    } = yield call(getStock);
 
     if (error) {
       // TODO add error handling/logging
@@ -16,7 +16,7 @@ export default function* updateNote({ data: { id, value } }) {
       return;
     }
 
-    yield put(noteActions.setNotes(data));
+    yield put(stockActions.setStock(data));
   } catch (e) {
     // TODO add error handling/logging
     console.error(e);

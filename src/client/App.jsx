@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Notes from './components/Notes';
+import StockViewer from './components/StockViewer';
 
 class App extends React.Component {
   componentDidMount() {
@@ -13,7 +13,7 @@ class App extends React.Component {
     return (
       <div className="app-container">
         <BrowserRouter>
-          <Route path="/*" component={Notes} />
+          <Route path="/*" component={StockViewer} />
         </BrowserRouter>
       </div>
     );
