@@ -1,64 +1,77 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './StockViewer.css';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip
-} from 'recharts';
-import StockTooltip from '../StockToolTip';
+import { connect } from 'react-redux';
+import './Stock.css';
+import StockViewer from '../StockViewer';
+import { userActions } from '../../actions';
 
-class StockViewer extends React.PureComponent {
-  render() {
-    const { stock, onAddClick, onRemoveClick } = this.props;
-    if (!stock || !stock.length) {
-      return null;
+class Stock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onAddClick = this.onAddClick.bind(this);
+    this.onRemoveClick = this.onRemoveClick.bind(this);
+    this.renderStockActions = this.renderStockActions.bind(this);
+  }
+
+  onAddClick(s) {
+    const { addStockToProfile, activeUser } = this.props;
+    addStockToProfile(activeUser, s);
+  }
+
+  onRemoveClick(s) {
+    const { removeStockFromProfile, activeUser } = this.props;
+    removeStockFromProfile(activeUser, s);
+  }
+
+  renderStockActions(s) {
+    const { activeUser: { profileStock } } = this.props;
+    if (profileStock[s.id]) {
+      return (
+        <button type="button" onClick={() => this.onRemoveClick(s)}>
+          Remove from profile
+        </button>
+      );
     }
     return (
-      <div className="stock-viewer-container">
-        <div className="stock-viewer-view">
-          <ul className="stock-viewer-stock-list">
-            {stock.map(s => (
-              <li key={s.id} className="stock-viewer-stock">
-                <div className="stock-viewer-stock-name">{s.name}</div>
-                <LineChart className="stock-viewer-stock-chart" width={600} height={200} data={s.data}>
-                  <XAxis dataKey="date" />
-                  <YAxis domain={['dataMin', 'dataMax']} />
-                  <CartesianGrid stroke="#ebf3f0" />
-                  <Tooltip content={<StockTooltip />} />
-                  <Line type="monotone" dataKey="value" stroke="#8884d8" />
-                </LineChart>
-                <div className="stock-viewer-stock-value">{s.currentValue}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <button type="button" onClick={() => this.onAddClick(s)}>
+        Add to profile
+      </button>
+    );
+  }
+
+  render() {
+    const { stock } = this.props;
+    return (
+      <div className="stock-container">
+        <StockViewer
+          stock={stock}
+          renderActions={this.renderStockActions}
+        />
       </div>
     );
   }
 }
 
-StockViewer.defaultProps = {
-  onAddClick: undefined,
-  onRemoveClick: undefined
+Stock.defaultProps = {};
+
+Stock.propTypes = {
+  stock: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  activeUser: PropTypes.shape({}).isRequired,
+  addStockToProfile: PropTypes.func.isRequired,
+  removeStockFromProfile: PropTypes.func.isRequired
 };
 
-StockViewer.propTypes = {
-  stock: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    data: PropTypes.arrayOf(PropTypes.shape({
-      date: PropTypes.string.isRequired,
-      value: PropTypes.number.isRequired,
-      change: PropTypes.number.isRequired
-    })).isRequired,
-    currentValue: PropTypes.number.isRequired
-  })).isRequired,
-  onAddClick: PropTypes.func,
-  onRemoveClick: PropTypes.func
+const mapStateToProps = (state) => {
+  const stock = Object.keys(state.stock.stock).map(id => state.stock.stock[id]);
+  return ({
+    stock,
+    activeUser: state.user.activeUser
+  });
 };
 
-export default StockViewer;
+const mapDispatchToProps = dispatch => ({
+  addStockToProfile: (user, s) => dispatch(userActions.addStockToProfile(user, s)),
+  removeStockFromProfile: (user, s) => dispatch(userActions.removeStockFromProfile(user, s))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Stock);

@@ -27,9 +27,6 @@ class App extends React.Component {
 
   render() {
     const { isLoading, activeUser } = this.props;
-    if (isLoading) {
-      return <div>Loading...</div>;
-    }
     return (
       <div className="app-container">
         <div className="app-header">
@@ -40,15 +37,19 @@ class App extends React.Component {
             initialEntries={[USERS, PROFILE, STOCK]}
             initialIndex={0}
           >
-            <Nav
-              enableAll={typeof activeUser !== 'undefined'}
-              onNavItemClick={this.onNavSelection}
-            />
-            <div className="app-content-main">
-              <Route path={USERS} component={Users} />
-              <Route path={PROFILE} component={Profile} />
-              <Route path={STOCK} component={Stock} />
-            </div>
+            {isLoading && <div>Loading...</div>}
+            {!isLoading && [
+              <Nav
+                key="nav"
+                enableAll={typeof activeUser !== 'undefined'}
+                onNavItemClick={this.onNavSelection}
+              />,
+              <div key="routes" className="app-content-main">
+                <Route path={USERS} component={Users} />
+                <Route path={PROFILE} component={Profile} />
+                <Route path={STOCK} component={Stock} />
+              </div>
+            ]}
           </MemoryRouter>
         </div>
       </div>

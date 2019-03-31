@@ -22,6 +22,7 @@ low(adapter)
           .value()
       );
     });
+
     // GET /stock
     app.get('/api/stock', (req, res) => {
       res.send(
@@ -29,6 +30,36 @@ low(adapter)
           .orderBy('currentValue', 'desc')
           .value()
       );
+    });
+
+    // POST /user/stock/add
+    app.post('/api/user/stock/add', (req, res) => {
+      const { userId, stockId, stockName } = req.body;
+      const user = db.get('user')
+        .find({ id: userId })
+        .value();
+      const { profileStock } = user;
+      profileStock[stockId] = { name: stockName };
+      db.get('users')
+        .find({ id: userId })
+        .assign({ profileStock })
+        .write();
+      res.send(profileStock);
+    });
+
+    // POST /user/stock/remove
+    app.post('/api/user/stock/remove', (req, res) => {
+      const { userId, stockId } = req.body;
+      const user = db.get('user')
+        .find({ id: userId })
+        .value();
+      const { profileStock } = user;
+      delete profileStock[stockId];
+      db.get('users')
+        .find({ id: userId })
+        .assign({ profileStock })
+        .write();
+      res.send(profileStock);
     });
 
     // Set db default values

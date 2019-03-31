@@ -1,10 +1,16 @@
 export default (state = [], action) => {
   const { type, data } = action;
+  let stock;
   switch (type) {
     case 'SET_STOCK':
-      return [
-        ...data.stock
-      ];
+      stock = {};
+      data.stock.forEach((s) => {
+        stock[s.id] = s;
+      });
+      return {
+        ...state,
+        stock
+      };
     default:
       return state;
   }

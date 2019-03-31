@@ -21,8 +21,17 @@ class Nav extends React.Component {
     const { enableAll } = this.props;
     return (
       <div className="nav">
+        <Link
+          key={USERS}
+          className={`nav-item ${navPath === USERS ? 'active' : ''}`}
+          to={USERS}
+          onClick={() => this.onNavSelection(USERS)}
+        >
+          User Selection
+        </Link>
         {enableAll && [
           <Link
+            key={PROFILE}
             className={`nav-item ${navPath === PROFILE ? 'active' : ''}`}
             to={PROFILE}
             onClick={() => this.onNavSelection(PROFILE)}
@@ -30,6 +39,7 @@ class Nav extends React.Component {
             Your Profile
           </Link>,
           <Link
+            key={STOCK}
             className={`nav-item ${navPath === STOCK ? 'active' : ''}`}
             to={STOCK}
             onClick={() => this.onNavSelection(STOCK)}
@@ -37,13 +47,6 @@ class Nav extends React.Component {
             All Stock
           </Link>
         ]}
-        <Link
-          className={`nav-item ${navPath === USERS ? 'active' : ''}`}
-          to={USERS}
-          onClick={() => this.onNavSelection(USERS)}
-        >
-          User Selection
-        </Link>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 const TOTAL_DAYS = 60;
-const SPREAD = 200;
+const SPREAD = 50;
 
 const getStockData = (repeatLastCount) => {
   const data = [];
@@ -9,7 +9,7 @@ const getStockData = (repeatLastCount) => {
     date.setDate(date.getDate() - (TOTAL_DAYS - i - 1));
     const dateString = `${(date.getMonth() + 1)}/${date.getDate()}`;
     if (i === 0) {
-      prevValue = SPREAD;
+      prevValue = 500;
       data.push({
         date: dateString,
         value: prevValue,
@@ -22,7 +22,7 @@ const getStockData = (repeatLastCount) => {
         const max = prevValue + SPREAD;
         prevValue = parseFloat((Math.random() * (max - min) + min).toFixed(2));
       }
-      const change = prevValue - prevValueCopy;
+      const change = parseFloat((prevValue - prevValueCopy).toFixed(2));
       data.push({
         date: dateString,
         value: prevValue,

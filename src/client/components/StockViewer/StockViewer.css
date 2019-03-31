@@ -20,16 +20,25 @@
 .stock-viewer-stock {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.stock-viewer-stock-name {
-  flex-grow: 1;
+.stock-viewer-stock-details {
+  display: flex;
+  flex-direction: column;
 }
 
-.stock-viewer-stock-chart {
-  flex-grow: 1;
-}
+@media(max-width: 770px) {
+  .stock-viewer-stock-details {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 
-.stock-viewer-stock-change {
-  flex-grow: 1;
+  .stock-viewer-stock-name {
+    margin: 0 20px;
+  }
+
+  .stock-viewer-stock-value {
+    margin: 0 20px;
+  }
 }

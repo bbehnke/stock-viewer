@@ -16,8 +16,35 @@ const clearActiveUser = () => ({
   type: 'CLEAR_ACTIVE_USER'
 });
 
+const addStockToProfile = (user, stock) => ({
+  type: 'ADD_TO_PROFILE',
+  data: {
+    userId: user.id,
+    stockId: stock.id,
+    stockName: stock.name
+  }
+});
+
+const removeStockFromProfile = (user, stock) => ({
+  type: 'REMOVE_FROM_PROFILE',
+  data: {
+    userId: user.id,
+    stockId: stock.id
+  }
+});
+
+const updateUserProfile = profileStock => ({
+  type: 'UPDATE_USER_PROFILE',
+  data: {
+    profileStock
+  }
+});
+
 export default {
   setUsers,
   setActiveUser,
-  clearActiveUser
+  clearActiveUser,
+  addStockToProfile,
+  removeStockFromProfile,
+  updateUserProfile
 };
