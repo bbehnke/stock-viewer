@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './StockToolTip.css';
 
 const StockTooltip = ({ active, payload }) => {
   if (active && payload) {

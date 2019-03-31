@@ -11,18 +11,9 @@ import { mainActions } from './actions';
 import { USERS, PROFILE, STOCK } from './routes';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onNavSelection = this.onNavSelection.bind(this);
-  }
-
   componentDidMount() {
     const { initialize } = this.props;
     initialize();
-  }
-
-  onNavSelection(navPath) {
-    // TODO handle USER
   }
 
   render() {
@@ -42,7 +33,6 @@ class App extends React.Component {
               <Nav
                 key="nav"
                 enableAll={typeof activeUser !== 'undefined'}
-                onNavItemClick={this.onNavSelection}
               />,
               <div key="routes" className="app-content-main">
                 <Route path={USERS} component={Users} />

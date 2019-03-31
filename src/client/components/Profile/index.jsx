@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Profile.css';
 import StockViewer from '../StockViewer';
+import NotifyInput from '../NotifyInput';
 import { userActions } from '../../actions';
 import { getUserProfileStockList } from '../../selectors';
 
@@ -30,6 +31,7 @@ class Profile extends React.Component {
     const { stock } = this.props;
     return (
       <div className="profile-container">
+        <NotifyInput />
         <StockViewer
           stock={stock}
           renderActions={this.renderStockActions}
