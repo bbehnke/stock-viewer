@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const low = require('lowdb');
 const FileAsync = require('lowdb/adapters/FileAsync');
+const uuidv4 = require('uuid/v4');
 const StockDataGenerator = require('./StockDataGenerator');
 
 // Create server
@@ -13,28 +14,42 @@ const adapter = new FileAsync('db.json');
 low(adapter)
   .then((db) => {
     // Routes
+    // GET /users
+    app.get('/api/users', (req, res) => {
+      res.send(
+        db.get('user')
+          .orderBy('name', 'asc')
+          .value()
+      );
+    });
     // GET /stock
     app.get('/api/stock', (req, res) => {
       res.send(
         db.get('stock')
-          .sortBy('name')
+          .orderBy('currentValue', 'desc')
           .value()
       );
     });
 
     // Set db default values
     return db.defaults({
+      user: [
+        { id: uuidv4(), name: 'User 1', profileStock: {} },
+        { id: uuidv4(), name: 'User 2', profileStock: {} },
+        { id: uuidv4(), name: 'User 3', profileStock: {} },
+        { id: uuidv4(), name: 'User 4', profileStock: {} }
+      ],
       stock: [
-        { id: '1', name: 'VNET', data: StockDataGenerator.getStockData(1) },
-        { id: '2', name: 'AKAM', data: StockDataGenerator.getStockData(2) },
-        { id: '3', name: 'BIDU', data: StockDataGenerator.getStockData(3) },
-        { id: '4', name: 'BCOR', data: StockDataGenerator.getStockData(4) },
-        { id: '5', name: 'WIFI', data: StockDataGenerator.getStockData(5) },
-        { id: '6', name: 'BRNW', data: StockDataGenerator.getStockData(6) },
-        { id: '7', name: 'CARB', data: StockDataGenerator.getStockData(7) },
-        { id: '8', name: 'JRJC', data: StockDataGenerator.getStockData(8) },
-        { id: '9', name: 'CCIH', data: StockDataGenerator.getStockData(9) },
-        { id: '10', name: 'CCOI', data: StockDataGenerator.getStockData(10) }
+        { id: uuidv4(), name: 'VNET', ...StockDataGenerator.getStockData(1) },
+        { id: uuidv4(), name: 'AKAM', ...StockDataGenerator.getStockData(2) },
+        { id: uuidv4(), name: 'BIDU', ...StockDataGenerator.getStockData(3) },
+        { id: uuidv4(), name: 'BCOR', ...StockDataGenerator.getStockData(4) },
+        { id: uuidv4(), name: 'WIFI', ...StockDataGenerator.getStockData(5) },
+        { id: uuidv4(), name: 'BRNW', ...StockDataGenerator.getStockData(6) },
+        { id: uuidv4(), name: 'CARB', ...StockDataGenerator.getStockData(7) },
+        { id: uuidv4(), name: 'JRJC', ...StockDataGenerator.getStockData(8) },
+        { id: uuidv4(), name: 'CCIH', ...StockDataGenerator.getStockData(9) },
+        { id: uuidv4(), name: 'CCOI', ...StockDataGenerator.getStockData(10) }
       ]
     }).write();
   })

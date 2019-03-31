@@ -6,12 +6,12 @@ const getStockData = (repeatLastCount) => {
   let prevValue;
   for (let i = 0; i < TOTAL_DAYS; i += 1) {
     const date = new Date();
-    date.setDate(date.getDate() - (TOTAL_DAYS - i));
-    const dateString = `${(date.getMonth() + 1)}/${date.getDate()}/${date.getFullYear()}`;
+    date.setDate(date.getDate() - (TOTAL_DAYS - i - 1));
+    const dateString = `${(date.getMonth() + 1)}/${date.getDate()}`;
     if (i === 0) {
       prevValue = SPREAD;
       data.push({
-        name: dateString,
+        date: dateString,
         value: prevValue,
         change: 0
       });
@@ -20,17 +20,20 @@ const getStockData = (repeatLastCount) => {
       if (TOTAL_DAYS - i + 1 > repeatLastCount) {
         const min = prevValue - SPREAD <= 0 ? 0 : prevValue - SPREAD;
         const max = prevValue + SPREAD;
-        prevValue = Math.floor(Math.random() * (max - min) + min);
+        prevValue = parseFloat((Math.random() * (max - min) + min).toFixed(2));
       }
       const change = prevValue - prevValueCopy;
       data.push({
-        name: dateString,
+        date: dateString,
         value: prevValue,
         change
       });
     }
   }
-  return data;
+  return {
+    data,
+    currentValue: prevValue
+  };
 };
 
 module.exports = { getStockData };

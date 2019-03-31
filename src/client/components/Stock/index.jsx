@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './StockViewer.css';
-import { connect } from 'react-redux';
 import {
   LineChart,
   Line,
@@ -14,7 +13,7 @@ import StockTooltip from '../StockToolTip';
 
 class StockViewer extends React.PureComponent {
   render() {
-    const { stock } = this.props;
+    const { stock, onAddClick, onRemoveClick } = this.props;
     if (!stock || !stock.length) {
       return null;
     }
@@ -42,16 +41,24 @@ class StockViewer extends React.PureComponent {
   }
 }
 
-StockViewer.propTypes = {
-  stock: PropTypes.arrayOf(PropTypes.shape({
-    // TODO
-  })).isRequired
+StockViewer.defaultProps = {
+  onAddClick: undefined,
+  onRemoveClick: undefined
 };
 
-const mapStateToProps = state => ({
-  stock: state.stock
-});
+StockViewer.propTypes = {
+  stock: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    data: PropTypes.arrayOf(PropTypes.shape({
+      date: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
+      change: PropTypes.number.isRequired
+    })).isRequired,
+    currentValue: PropTypes.number.isRequired
+  })).isRequired,
+  onAddClick: PropTypes.func,
+  onRemoveClick: PropTypes.func
+};
 
-const mapDispatchToProps = () => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(StockViewer);
+export default StockViewer;

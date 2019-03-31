@@ -1,0 +1,4 @@
+.stock-tooltip {
+  display: flex;
+  flex-direction: column;
+}
