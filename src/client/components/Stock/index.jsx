@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import './Stock.css';
 import StockViewer from '../StockViewer';
 import { userActions } from '../../actions';
+import { getStockList } from '../../selectors';
 
 class Stock extends React.Component {
   constructor(props) {
@@ -61,13 +62,10 @@ Stock.propTypes = {
   removeStockFromProfile: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-  const stock = Object.keys(state.stock.stock).map(id => state.stock.stock[id]);
-  return ({
-    stock,
-    activeUser: state.user.activeUser
-  });
-};
+const mapStateToProps = state => ({
+  stock: getStockList(state),
+  activeUser: state.user.activeUser
+});
 
 const mapDispatchToProps = dispatch => ({
   addStockToProfile: (user, s) => dispatch(userActions.addStockToProfile(user, s)),

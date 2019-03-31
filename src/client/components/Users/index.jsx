@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { userActions } from '../../actions';
+import { getActiveUserId } from '../../selectors';
 
 class Users extends React.Component {
   constructor(props) {
@@ -53,7 +54,7 @@ Users.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  activeUserId: state.user.activeUser ? state.user.activeUser.id : undefined,
+  activeUserId: getActiveUserId(state),
   users: state.user.users
 });
 

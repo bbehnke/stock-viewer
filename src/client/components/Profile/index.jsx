@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import './Stock.css';
+import './Profile.css';
 import StockViewer from '../StockViewer';
 import { userActions } from '../../actions';
+import { getUserProfileStockList } from '../../selectors';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class Profile extends React.Component {
   render() {
     const { stock } = this.props;
     return (
-      <div className="stock-container">
+      <div className="profile-container">
         <StockViewer
           stock={stock}
           renderActions={this.renderStockActions}
@@ -46,14 +47,10 @@ Profile.propTypes = {
   removeStockFromProfile: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-  const { activeUser } = state.user;
-  const stock = Object.keys(activeUser.profileStock).map(stockId => state.stock.stock[stockId]);
-  return ({
-    stock,
-    activeUser
-  });
-};
+const mapStateToProps = state => ({
+  stock: getUserProfileStockList(state),
+  activeUser: state.user.activeUser
+});
 
 const mapDispatchToProps = dispatch => ({
   addStockToProfile: (user, s) => dispatch(userActions.addStockToProfile(user, s)),
