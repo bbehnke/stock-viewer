@@ -4,3 +4,4 @@ export { default as addStockToProfile } from './addStockToProfile';
 export { default as removeStockFromProfile } from './removeStockFromProfile';
 export { default as getUserStock } from './getUserStock';
 export { default as getUserNotifications } from './getUserNotifications';
+export { default as setNotifyDays } from './setNotifyDays';

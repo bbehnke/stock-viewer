@@ -5,23 +5,21 @@ import './NotifyInput.css';
 class NotifyInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: 2 };
+    this.state = { value: props.initialValue };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange({ target: { value } }) {
     const { onChange } = this.props;
+    const intValue = parseInt(value, 10);
     this.setState({
-      value
-    },
-    () => {
-      onChange(value);
-    });
+      value: intValue
+    }, () => { onChange(intValue); });
   }
 
   render() {
     const { value } = this.state;
-    const { renderSubmit, renderDisable } = this.props;
+    const { submitDisabled, onSubmit } = this.props;
     return (
       <div className="notify-input-container">
         <div>Notify me when price is the same for</div>
@@ -32,23 +30,30 @@ class NotifyInput extends React.Component {
           }
         </select>
         <div>days</div>
-        {renderSubmit()}
-        {renderDisable()}
+        <button
+          type="button"
+          disabled={submitDisabled}
+          onClick={() => { onSubmit(value); }}
+        >
+          Submit
+        </button>
       </div>
     );
   }
 }
 
 NotifyInput.defaultProps = {
-  renderSubmit: () => {},
-  renderDisable: () => {},
-  onChange: () => {}
+  initialValue: 2,
+  submitDisabled: false,
+  onChange: () => {},
+  onSubmit: () => {}
 };
 
 NotifyInput.propTypes = {
-  renderSubmit: PropTypes.func,
-  renderDisable: PropTypes.func,
-  onChange: PropTypes.func
+  initialValue: PropTypes.number,
+  submitDisabled: PropTypes.bool,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func
 };
 
 export default NotifyInput;

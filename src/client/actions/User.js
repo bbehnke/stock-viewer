@@ -52,10 +52,10 @@ const removeStockFromProfile = stock => ({
   }
 });
 
-const setNotifyDays = notifyDays => ({
+const setNotifyDays = value => ({
   type: 'SET_NOTIFY_DAYS',
   data: {
-    notifyDays
+    value
   }
 });
 

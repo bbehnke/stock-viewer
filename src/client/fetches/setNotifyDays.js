@@ -1,15 +1,15 @@
-const addStockToProfile = (
+const setNotifyDays = (
   userId,
-  stockId
-) => fetch('/api/user/stock/add', {
-  method: 'PUT',
+  value
+) => fetch('/api/user/notify/days', {
+  method: 'POST',
   mode: 'cors',
   cache: 'no-cache',
   headers: {
     'Content-Type': 'application/json',
   },
   referrer: 'no-referrer',
-  body: JSON.stringify({ userId, stockId }),
+  body: JSON.stringify({ userId, value }),
 })
   .then(res => res.json())
   .then(data => ({ data }))
@@ -17,4 +17,4 @@ const addStockToProfile = (
     error
   }));
 
-export default addStockToProfile;
+export default setNotifyDays;

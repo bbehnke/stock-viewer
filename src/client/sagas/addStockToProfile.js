@@ -1,12 +1,12 @@
 import { put, call, select } from 'redux-saga/effects';
-import { addStockToProfile as addStockToProfilePost } from '../fetches';
+import { addStockToProfile as addStockToProfilePut } from '../fetches';
 import { userActions, pageActions } from '../actions';
 
 export default function* addStockToProfile({ data: { stockId } }) {
   try {
     yield put(pageActions.setLoading(true));
     const { user: { user: { id: userId } } } = yield select();
-    const { data, error } = yield call(addStockToProfilePost, userId, stockId);
+    const { data, error } = yield call(addStockToProfilePut, userId, stockId);
     if (error) {
       // TODO add error handling/logging
       console.error(error);

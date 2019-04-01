@@ -4,9 +4,10 @@ import './App.css';
 import { connect } from 'react-redux';
 import { MemoryRouter, Route } from 'react-router-dom';
 import Nav from './components/Nav';
-import Profile from './components/Profile';
-import Stock from './components/Stock';
 import Users from './components/Users';
+import Stock from './components/Stock';
+import Profile from './components/Profile';
+import Notifications from './components/Notifications';
 import { mainActions, userActions } from './actions';
 import {
   USERS, PROFILE, STOCK, NOTIFCATIONS
@@ -35,7 +36,7 @@ class App extends React.Component {
     return (
       <div className="app-container">
         <div className="app-header">
-          <h1>Hello! Welcome to stock-viewer.</h1>
+          <h1>{`Hello${user ? ` ${user.name}` : ''}! Welcome to stock-viewer.`}</h1>
         </div>
         <div className="app-content">
           <MemoryRouter
@@ -53,7 +54,7 @@ class App extends React.Component {
                 <Route path={USERS} component={Users} />
                 <Route path={STOCK} component={Stock} />
                 <Route path={PROFILE} component={Profile} />
-                <Route path={NOTIFCATIONS} component={Profile} />
+                <Route path={NOTIFCATIONS} component={Notifications} />
               </div>
             ]}
           </MemoryRouter>

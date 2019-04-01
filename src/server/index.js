@@ -17,11 +17,7 @@ low(adapter)
     // Routes
     // GET /users
     app.get('/api/users', (req, res) => {
-      res.send(
-        db.get('user')
-          .orderBy('name', 'asc')
-          .value()
-      );
+      res.send(actions.getUsers(db));
     });
 
     // GET /user/stock
@@ -33,64 +29,37 @@ low(adapter)
     // GET /user/notifications
     app.get('/api/user/notifications/:userId', (req, res) => {
       const { userId } = req.params;
-      res.send(
-        db.get('notifications')
-          .filter({ userId })
-          .orderBy('date', 'desc')
-          .value()
-      );
+      res.send(actions.getUserNotifications(db, userId));
     });
 
     // GET /stock
     app.get('/api/stock', (req, res) => {
-      res.send(
-        db.get('stock')
-          .orderBy('currentValue', 'desc')
-          .value()
-      );
+      res.send(actions.getStock(db));
     });
 
-    // POST /user/stock/add
-    app.post('/api/user/stock/add', (req, res) => {
+    // PUT /user/stock/add
+    app.put('/api/user/stock/add', (req, res) => {
       const { userId, stockId } = req.body;
-      db.get('userStock')
-        .push({
-          id: uuidv4(),
-          userId,
-          stockId
-        })
-        .write();
+      actions.createUserStock(db, userId, stockId);
       res.send(actions.getUserStock(db, userId));
     });
 
-
     // POST /user/notify/days
-    app.post('/user/notify/days', (req, res) => {
-      const { userId, notifyDays } = req.body;
-      db.get('users')
-        .find({ id: userId })
-        .assign({ notifyDays })
-        .write();
-      res.send(notifyDays);
+    app.post('/api/user/notify/days', (req, res) => {
+      const { userId, value: givenDays } = req.body;
+      actions.updateUserNotifyDays(db, userId, givenDays);
+      actions.createDaysNotifications(db, userId, givenDays);
+      res.send({
+        users: actions.getUsers(db),
+        notifications: actions.getUserNotifications(db, userId)
+      });
     });
 
     // DELETE /user/stock
     app.delete('/api/user/stock/remove', (req, res) => {
       const { userId, stockId } = req.body;
-      db.get('userStock')
-        .remove({ userId, stockId })
-        .write();
+      actions.deleteUserStock(db, userId, stockId);
       res.send(actions.getUserStock(db, userId));
-    });
-
-    // DELETE /user/notify/days
-    app.delete('/user/notify/days', (req, res) => {
-      const { userId } = req.body;
-      db.get('users')
-        .find({ id: userId })
-        .assign({ notifyDays: undefined })
-        .write();
-      res.send({});
     });
 
     // Set db default values
@@ -109,10 +78,8 @@ low(adapter)
           id: uuidv4(), name: 'User 4'
         }
       ],
-      userStock: [
-        { id: uuidv4(), userId: uuidv4(), stockId: uuidv4() }
-      ],
-      notifications: [],
+      userStock: [],
+      notification: [],
       stock: [
         { id: uuidv4(), name: 'VNET', ...StockDataGenerator.getStockData(1) },
         { id: uuidv4(), name: 'AKAM', ...StockDataGenerator.getStockData(2) },
