@@ -16,7 +16,8 @@ class Nav extends React.Component {
   onNavSelection(navPath) {
     const { onNavItemClick, disable } = this.props;
     if (!disable) {
-      this.setState({ navPath }, () => { onNavItemClick(navPath); });
+      const localPath = navPath === 'back' ? STOCK : navPath;
+      this.setState({ navPath: localPath }, () => { onNavItemClick(navPath); });
     }
   }
 
@@ -57,7 +58,7 @@ class Nav extends React.Component {
         </Link>
         <Link
           key="BACK_TO_USERS"
-          className={`nav-item ${navPath === USERS ? 'active' : ''}${disableClass}`}
+          className={`nav-item ${disableClass}`}
           to={USERS}
           onClick={() => this.onNavSelection('back')}
         >

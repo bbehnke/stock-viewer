@@ -38,6 +38,10 @@ module.exports = {
       }
     }
   },
+  watchOptions: {
+    ignored: ['db.json'],
+    poll: false
+  },
   plugins: [
     new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({

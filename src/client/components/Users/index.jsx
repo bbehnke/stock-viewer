@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { userActions } from '../../actions';
 import PageHeader from '../PageHeader';
 import Button from '../Button';
-import Footer from '../Footer';
 import './Users.css';
 
 class Users extends React.Component {
