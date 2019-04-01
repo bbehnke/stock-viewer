@@ -76,7 +76,6 @@ Nav.defaultProps = {
   onNavItemClick: () => {}
 };
 
-// TODO make nav items configurable
 Nav.propTypes = {
   onNavItemClick: PropTypes.func,
   enableAll: PropTypes.bool.isRequired

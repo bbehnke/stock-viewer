@@ -59,10 +59,6 @@ const setNotifyDays = value => ({
   }
 });
 
-const disableNotifyDays = () => ({
-  type: 'DISABLE_NOTIFY_DAYS'
-});
-
 export default {
   setUsers,
   loadUser,
@@ -72,6 +68,5 @@ export default {
   clearActiveUser,
   addStockToProfile,
   removeStockFromProfile,
-  setNotifyDays,
-  disableNotifyDays
+  setNotifyDays
 };
