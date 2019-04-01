@@ -11,6 +11,3 @@ Node and npm are required to install and run this project.
 4. Run 'npm start'.
 
 Once the webpack dev server has started it will open your default browser and load the application.
-
-# Unit testing
-Run the command 'npm test' to run jest unit testing.
