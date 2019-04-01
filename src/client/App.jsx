@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './App.css';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import Spinner from './components/Spinner';
 import Nav from './components/Nav';
 import Users from './components/Users';
@@ -22,13 +22,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { initialize } = this.props;
-    initialize();
+    const { initialize, history } = this.props;
+    initialize(history);
   }
 
   onNavItemClick(path) {
     const { clearActiveUser } = this.props;
     if (path === 'back') {
+      sessionStorage.removeItem('active_user_id');
       clearActiveUser();
     }
   }
@@ -78,7 +79,8 @@ App.propTypes = {
   initialize: PropTypes.func.isRequired,
   clearActiveUser: PropTypes.func.isRequired,
   notifications: PropTypes.arrayOf(PropTypes.shape({})),
-  profileStock: PropTypes.arrayOf(PropTypes.shape({}))
+  profileStock: PropTypes.arrayOf(PropTypes.shape({})),
+  history: PropTypes.shape({}).isRequired
 };
 
 const mapStateToProps = state => ({
@@ -89,8 +91,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  initialize: () => dispatch(mainActions.initialize()),
+  initialize: history => dispatch(mainActions.initialize(history)),
   clearActiveUser: () => dispatch(userActions.clearActiveUser())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

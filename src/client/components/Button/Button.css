@@ -19,3 +19,13 @@
 .stock-viewer-button:focus {
   box-shadow: 1px 1px 1px #9068be;
 }
+
+.stock-viewer-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.stock-viewer-button:disabled:hover {
+  background: white;
+  color: #9068be;
+}

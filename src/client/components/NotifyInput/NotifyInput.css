@@ -1,4 +1,18 @@
 .notify-input-container {
   display: flex;
   flex-direction: row;
+  color: #57585d;
+  align-items: center;
+}
+
+.notify-input-submit {
+  margin-left: 5px;
+}
+
+.stock-viewer-selector {
+  border: 1px #9068be solid;
+  background-color: white;
+  color: #57585d;
+  font-size: 14px;
+  margin: 0 5px;
 }

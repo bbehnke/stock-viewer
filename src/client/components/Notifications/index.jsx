@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Notifications.css';
+import PageHeader from '../PageHeader';
 import NotifyInput from '../NotifyInput';
 import { userActions } from '../../actions';
 
@@ -33,17 +34,20 @@ class Notifications extends React.Component {
     const { notifyDays, notifications } = this.props;
     return (
       <div className="notifications-container">
+        <PageHeader value="Notifications" />
         <NotifyInput
           initialValue={notifyDays}
           submitDisabled={notifyDaysSubmitDisabled}
           onChange={this.onNotifyDaysChange}
           onSubmit={this.onNotifyDaysSubmit}
         />
-        <ul>
+        {!notifications.length && (
+          <div className="notifications-empty-message">You do not have any notifications.</div>
+        )}
+        <ul className="notifications-list">
           {notifications.map(n => (
-            <li key={n.id}>
-              <div>{new Date(n.date).toISOString()}</div>
-              <div>{n.message}</div>
+            <li key={n.id} className="notifications-item">
+              {n.message}
             </li>
           ))}
         </ul>

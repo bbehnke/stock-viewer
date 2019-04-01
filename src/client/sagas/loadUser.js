@@ -26,6 +26,7 @@ export default function* loadUser({ data: { user, history } }) {
     yield put(userActions.setActiveUser(user));
     yield put(userActions.setActiveUserStock(stockData));
     yield put(userActions.setActiveUserNotifications(notificationData));
+    sessionStorage.setItem('active_user_id', user.id);
     history.push(STOCK);
   } catch (e) {
     // TODO add error handling/logging

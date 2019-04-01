@@ -1,5 +1,8 @@
-const initialize = () => ({
-  type: 'INITIALIZE'
+const initialize = history => ({
+  type: 'INITIALIZE',
+  data: {
+    history
+  }
 });
 
 const reloadAllStock = () => ({

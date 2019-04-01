@@ -1,3 +1,27 @@
 .notifications-container {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notifications-empty-message {
+  margin-top: 30px;
+  color: #57585d;
+}
+
+.notifications-list {
+  margin: 10px 0 0;
+  padding: 0;
+  height: 100%;
+  list-style-type: none;
+  overflow-y: auto;
+}
+
+.notifications-item {
+  background-color: #e1e8f0;
+  padding: 10px;
+  margin: 10px 0;
+  color: #57585d;
+  border-radius: 5px;
 }

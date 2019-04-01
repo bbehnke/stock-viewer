@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '../Button';
 import './NotifyInput.css';
 
 class NotifyInput extends React.Component {
@@ -23,20 +24,27 @@ class NotifyInput extends React.Component {
     return (
       <div className="notify-input-container">
         <div>Notify me when price is the same for</div>
-        <select value={value} onChange={this.handleChange}>
+        <select
+          className="stock-viewer-selector"
+          value={value}
+          onChange={this.handleChange}
+        >
           {
-            Array.from(Array(58).keys())
-              .map(i => <option key={`notify-option${i}`} value={i + 2}>{i + 2}</option>)
+            Array.from(Array(14).keys())
+              .map(i => (
+                <option key={`notify-option${i}`} value={i + 2}>
+                  {i + 2}
+                </option>
+              ))
           }
         </select>
         <div>days</div>
-        <button
-          type="button"
+        <Button
+          className="notify-input-submit"
+          value="Submit"
           disabled={submitDisabled}
           onClick={() => { onSubmit(value); }}
-        >
-          Submit
-        </button>
+        />
       </div>
     );
   }
