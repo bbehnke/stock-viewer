@@ -4,6 +4,7 @@ import addStockToProfile from './addStockToProfile';
 import removeStockFromProfile from './removeStockFromProfile';
 import loadUser from './loadUser';
 import setNotifyDays from './setNotifyDays';
+import reloadAllStock from './reloadAllStock';
 
 export default function* watcherSaga() {
   yield all([
@@ -11,6 +12,7 @@ export default function* watcherSaga() {
     yield takeLatest('ADD_TO_PROFILE', addStockToProfile),
     yield takeLatest('REMOVE_FROM_PROFILE', removeStockFromProfile),
     yield takeLatest('LOAD_USER', loadUser),
-    yield takeLatest('SET_NOTIFY_DAYS', setNotifyDays)
+    yield takeLatest('SET_NOTIFY_DAYS', setNotifyDays),
+    yield takeLatest('RELOAD_ALL_STOCK', reloadAllStock)
   ]);
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Stock.css';
 import StockViewer from '../StockViewer';
-import { userActions } from '../../actions';
+import { mainActions, userActions } from '../../actions';
 import { getUserStockMap } from '../../selectors';
 
 class Stock extends React.Component {
@@ -11,6 +11,7 @@ class Stock extends React.Component {
     super(props);
     this.onAddClick = this.onAddClick.bind(this);
     this.onRemoveClick = this.onRemoveClick.bind(this);
+    this.onRefreshClick = this.onRefreshClick.bind(this);
     this.renderStockActions = this.renderStockActions.bind(this);
   }
 
@@ -22,6 +23,11 @@ class Stock extends React.Component {
   onRemoveClick(s) {
     const { removeStockFromProfile } = this.props;
     removeStockFromProfile(s);
+  }
+
+  onRefreshClick() {
+    const { reloadAllStock } = this.props;
+    reloadAllStock();
   }
 
   renderStockActions(s) {
@@ -47,6 +53,7 @@ class Stock extends React.Component {
         <StockViewer
           stock={stock}
           renderActions={this.renderStockActions}
+          onRefreshClick={this.onRefreshClick}
         />
       </div>
     );
@@ -59,7 +66,8 @@ Stock.propTypes = {
   stock: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   userStockMap: PropTypes.shape({}).isRequired,
   addStockToProfile: PropTypes.func.isRequired,
-  removeStockFromProfile: PropTypes.func.isRequired
+  removeStockFromProfile: PropTypes.func.isRequired,
+  reloadAllStock: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -69,7 +77,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   addStockToProfile: (user, s) => dispatch(userActions.addStockToProfile(user, s)),
-  removeStockFromProfile: (user, s) => dispatch(userActions.removeStockFromProfile(user, s))
+  removeStockFromProfile: (user, s) => dispatch(userActions.removeStockFromProfile(user, s)),
+  reloadAllStock: () => dispatch(mainActions.reloadAllStock())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stock);

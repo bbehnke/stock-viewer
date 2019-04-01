@@ -13,13 +13,14 @@ import StockTooltip from '../StockToolTip';
 
 class StockViewer extends React.PureComponent {
   render() {
-    const { stock, renderActions } = this.props;
+    const { stock, renderActions, onRefreshClick } = this.props;
     if (stock.length === 0) {
       return null;
     }
     return (
       <div className="stock-viewer-container">
         <div className="stock-viewer-view">
+          <button type="button" onClick={onRefreshClick}>Refresh</button>
           <ul className="stock-viewer-stock-list">
             {stock.map(s => (
               <li key={s.id} className="stock-viewer-stock">
@@ -46,12 +47,14 @@ class StockViewer extends React.PureComponent {
 
 StockViewer.defaultProps = {
   stock: [],
-  renderActions: () => {}
+  renderActions: () => {},
+  onRefreshClick: () => {}
 };
 
 StockViewer.propTypes = {
   stock: PropTypes.arrayOf(PropTypes.shape({})),
-  renderActions: PropTypes.func
+  renderActions: PropTypes.func,
+  onRefreshClick: PropTypes.func
 };
 
 export default StockViewer;
