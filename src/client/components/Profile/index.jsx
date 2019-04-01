@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Profile.css';
 import StockViewer from '../StockViewer';
+import Button from '../Button';
+import PageHeader from '../PageHeader';
 import { mainActions, userActions } from '../../actions';
 
 class Profile extends React.Component {
@@ -25,9 +27,10 @@ class Profile extends React.Component {
 
   renderStockActions(s) {
     return (
-      <button type="button" onClick={() => this.onRemoveClick(s)}>
-        Remove from profile
-      </button>
+      <Button
+        value="Remove from profile"
+        onClick={() => this.onRemoveClick(s)}
+      />
     );
   }
 
@@ -35,7 +38,11 @@ class Profile extends React.Component {
     const { stock } = this.props;
     return (
       <div className="profile-container">
+        {!stock.length && (
+          <PageHeader value="No profile stock. Please add stock from the 'Home' page." />
+        )}
         <StockViewer
+          title="Profile stock"
           stock={stock}
           renderActions={this.renderStockActions}
           onRefreshClick={this.onRefreshClick}

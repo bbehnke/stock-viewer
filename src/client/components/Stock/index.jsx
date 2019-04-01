@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Stock.css';
 import StockViewer from '../StockViewer';
+import Button from '../Button';
 import { mainActions, userActions } from '../../actions';
 import { getUserStockMap } from '../../selectors';
 
@@ -34,15 +35,17 @@ class Stock extends React.Component {
     const { userStockMap } = this.props;
     if (userStockMap[s.id]) {
       return (
-        <button type="button" onClick={() => this.onRemoveClick(s)}>
-          Remove from profile
-        </button>
+        <Button
+          value="Remove from profile"
+          onClick={() => this.onRemoveClick(s)}
+        />
       );
     }
     return (
-      <button type="button" onClick={() => this.onAddClick(s)}>
-        Add to profile
-      </button>
+      <Button
+        value="Add to profile"
+        onClick={() => this.onAddClick(s)}
+      />
     );
   }
 
@@ -51,6 +54,7 @@ class Stock extends React.Component {
     return (
       <div className="stock-container">
         <StockViewer
+          title="All stock"
           stock={stock}
           renderActions={this.renderStockActions}
           onRefreshClick={this.onRefreshClick}

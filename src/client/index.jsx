@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { MemoryRouter } from 'react-router-dom';
 import './index.css';
 import {
   createStore,
@@ -10,6 +11,9 @@ import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import ReduxPromise from 'redux-promise';
 import createSagaMiddleware from 'redux-saga';
+import {
+  USERS, PROFILE, STOCK, NOTIFCATIONS
+} from './routes';
 import watcherSaga from './sagas';
 import reducers from './reducers';
 import App from './App';
@@ -27,7 +31,12 @@ sagaMiddleware.run(watcherSaga);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <MemoryRouter
+      initialEntries={[USERS, STOCK, PROFILE, NOTIFCATIONS]}
+      initialIndex={0}
+    >
+      <App />
+    </MemoryRouter>
   </Provider>,
   document.getElementById('root'),
 );

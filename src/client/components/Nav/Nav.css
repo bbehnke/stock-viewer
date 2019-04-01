@@ -1,6 +1,34 @@
 .nav {
   display: flex;
-  flex-direction: column;
-  min-width: 120px;
-  border: 1px solid black;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  flex-shrink: 0;
+  background: #e1e8f0;
+  padding: 5px 0;
+}
+
+.nav-item {
+  color: #9068be;
+  text-decoration: none;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  font-weight: bold;
+}
+
+.nav-item.disable {
+  cursor: default;
+  pointer-events: none;
+}
+.nav-item.disable:hover {
+  font-weight: normal;
+}
+
+.nav-item.active {
+  color: #57585d;
+  font-weight: bold;
+  cursor: default;
 }

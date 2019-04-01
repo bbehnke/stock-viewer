@@ -10,23 +10,28 @@ import {
   Tooltip
 } from 'recharts';
 import StockTooltip from '../StockToolTip';
+import Button from '../Button';
+import PageHeader from '../PageHeader';
 
 class StockViewer extends React.PureComponent {
   render() {
-    const { stock, renderActions, onRefreshClick } = this.props;
+    const {
+      stock, renderActions, onRefreshClick, title
+    } = this.props;
     if (stock.length === 0) {
       return null;
     }
     return (
       <div className="stock-viewer-container">
+        <PageHeader value={title} />
+        <Button className="stock-refresh" value="Refresh stock" onClick={onRefreshClick} />
         <div className="stock-viewer-view">
-          <button type="button" onClick={onRefreshClick}>Refresh</button>
           <ul className="stock-viewer-stock-list">
             {stock.map(s => (
               <li key={s.id} className="stock-viewer-stock">
                 <div className="stock-viewer-stock-details">
                   <div className="stock-viewer-stock-name">{s.name}</div>
-                  <div className="stock-viewer-stock-value">{s.currentValue}</div>
+                  <div className="stock-viewer-stock-value">{`Today: $${s.currentValue}`}</div>
                   <div className="stock-viewer-stock-actions">{renderActions(s)}</div>
                 </div>
                 <LineChart className="stock-viewer-stock-chart" width={559} height={200} data={s.data}>
@@ -48,13 +53,15 @@ class StockViewer extends React.PureComponent {
 StockViewer.defaultProps = {
   stock: [],
   renderActions: () => {},
-  onRefreshClick: () => {}
+  onRefreshClick: () => {},
+  title: 'Stock Viewer'
 };
 
 StockViewer.propTypes = {
   stock: PropTypes.arrayOf(PropTypes.shape({})),
   renderActions: PropTypes.func,
-  onRefreshClick: PropTypes.func
+  onRefreshClick: PropTypes.func,
+  title: PropTypes.string
 };
 
 export default StockViewer;

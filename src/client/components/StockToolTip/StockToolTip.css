@@ -1,5 +1,8 @@
 .stock-tooltip {
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: #57585d;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
 }

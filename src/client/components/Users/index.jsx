@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { userActions } from '../../actions';
+import PageHeader from '../PageHeader';
+import Button from '../Button';
+import Footer from '../Footer';
+import './Users.css';
 
 class Users extends React.Component {
   constructor(props) {
@@ -18,14 +22,15 @@ class Users extends React.Component {
     const { users } = this.props;
     return (
       <div className="users-container">
-        {users.map(u => (
-          <div key={u.id} className="users-user-item">
-            <div className="users-user-item-name">{u.name}</div>
-            <button type="button" onClick={() => this.onUserClick(u)}>
-                Select
-            </button>
-          </div>
-        ))}
+        <PageHeader value="Please select a user" />
+        <ul className="users-user-list">
+          {users.map(u => (
+            <li key={u.id} className="users-user-item">
+              <div className="users-user-item-name">{u.name}</div>
+              <Button value="Select" onClick={() => this.onUserClick(u)} />
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }
