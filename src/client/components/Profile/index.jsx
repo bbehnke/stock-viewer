@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Profile.css';
 import StockViewer from '../StockViewer';
-import NotifyInput from '../NotifyInput';
 import { userActions } from '../../actions';
-import { getUserProfileStockList } from '../../selectors';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -15,8 +13,8 @@ class Profile extends React.Component {
   }
 
   onRemoveClick(s) {
-    const { removeStockFromProfile, activeUser } = this.props;
-    removeStockFromProfile(activeUser, s);
+    const { removeStockFromProfile } = this.props;
+    removeStockFromProfile(s);
   }
 
   renderStockActions(s) {
@@ -31,7 +29,6 @@ class Profile extends React.Component {
     const { stock } = this.props;
     return (
       <div className="profile-container">
-        <NotifyInput />
         <StockViewer
           stock={stock}
           renderActions={this.renderStockActions}
@@ -45,18 +42,15 @@ Profile.defaultProps = {};
 
 Profile.propTypes = {
   stock: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  activeUser: PropTypes.shape({}).isRequired,
   removeStockFromProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  stock: getUserProfileStockList(state),
-  activeUser: state.user.activeUser
+  stock: state.user.stock
 });
 
 const mapDispatchToProps = dispatch => ({
-  addStockToProfile: (user, s) => dispatch(userActions.addStockToProfile(user, s)),
-  removeStockFromProfile: (user, s) => dispatch(userActions.removeStockFromProfile(user, s))
+  removeStockFromProfile: s => dispatch(userActions.removeStockFromProfile(s))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

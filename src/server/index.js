@@ -4,6 +4,7 @@ const low = require('lowdb');
 const FileAsync = require('lowdb/adapters/FileAsync');
 const uuidv4 = require('uuid/v4');
 const StockDataGenerator = require('./StockDataGenerator');
+const actions = require('./actions');
 
 // Create server
 const app = express();
@@ -23,6 +24,23 @@ low(adapter)
       );
     });
 
+    // GET /user/stock
+    app.get('/api/user/stock/:userId', (req, res) => {
+      const { userId } = req.params;
+      res.send(actions.getUserStock(db, userId));
+    });
+
+    // GET /user/notifications
+    app.get('/api/user/notifications/:userId', (req, res) => {
+      const { userId } = req.params;
+      res.send(
+        db.get('notifications')
+          .filter({ userId })
+          .orderBy('date', 'desc')
+          .value()
+      );
+    });
+
     // GET /stock
     app.get('/api/stock', (req, res) => {
       res.send(
@@ -34,42 +52,67 @@ low(adapter)
 
     // POST /user/stock/add
     app.post('/api/user/stock/add', (req, res) => {
-      const { userId, stockId, stockName } = req.body;
-      const user = db.get('user')
-        .find({ id: userId })
-        .value();
-      const { profileStock } = user;
-      profileStock[stockId] = { name: stockName };
-      db.get('users')
-        .find({ id: userId })
-        .assign({ profileStock })
+      const { userId, stockId } = req.body;
+      db.get('userStock')
+        .push({
+          id: uuidv4(),
+          userId,
+          stockId
+        })
         .write();
-      res.send(profileStock);
+      res.send(actions.getUserStock(db, userId));
     });
 
-    // POST /user/stock/remove
-    app.post('/api/user/stock/remove', (req, res) => {
-      const { userId, stockId } = req.body;
-      const user = db.get('user')
-        .find({ id: userId })
-        .value();
-      const { profileStock } = user;
-      delete profileStock[stockId];
+
+    // POST /user/notify/days
+    app.post('/user/notify/days', (req, res) => {
+      const { userId, notifyDays } = req.body;
       db.get('users')
         .find({ id: userId })
-        .assign({ profileStock })
+        .assign({ notifyDays })
         .write();
-      res.send(profileStock);
+      res.send(notifyDays);
+    });
+
+    // DELETE /user/stock
+    app.delete('/api/user/stock/remove', (req, res) => {
+      const { userId, stockId } = req.body;
+      db.get('userStock')
+        .remove({ userId, stockId })
+        .write();
+      res.send(actions.getUserStock(db, userId));
+    });
+
+    // DELETE /user/notify/days
+    app.delete('/user/notify/days', (req, res) => {
+      const { userId } = req.body;
+      db.get('users')
+        .find({ id: userId })
+        .assign({ notifyDays: undefined })
+        .write();
+      res.send({});
     });
 
     // Set db default values
     return db.defaults({
       user: [
-        { id: uuidv4(), name: 'User 1', profileStock: {} },
-        { id: uuidv4(), name: 'User 2', profileStock: {} },
-        { id: uuidv4(), name: 'User 3', profileStock: {} },
-        { id: uuidv4(), name: 'User 4', profileStock: {} }
+        {
+          id: uuidv4(), name: 'User 1'
+        },
+        {
+          id: uuidv4(), name: 'User 2'
+        },
+        {
+          id: uuidv4(), name: 'User 3'
+        },
+        {
+          id: uuidv4(), name: 'User 4'
+        }
       ],
+      userStock: [
+        { id: uuidv4(), userId: uuidv4(), stockId: uuidv4() }
+      ],
+      notifications: [],
       stock: [
         { id: uuidv4(), name: 'VNET', ...StockDataGenerator.getStockData(1) },
         { id: uuidv4(), name: 'AKAM', ...StockDataGenerator.getStockData(2) },

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { userActions } from '../../actions';
-import { getActiveUserId } from '../../selectors';
 
 class Users extends React.Component {
   constructor(props) {
@@ -11,56 +10,42 @@ class Users extends React.Component {
   }
 
   onUserClick(user) {
-    const { activeUserId, setActiveUser, clearActiveUser } = this.props;
-    if (activeUserId === user.id) {
-      clearActiveUser();
-    } else {
-      setActiveUser(user);
-    }
+    const { loadUser, history } = this.props;
+    loadUser(user, history);
   }
 
   render() {
-    const { activeUserId, users } = this.props;
+    const { users } = this.props;
     return (
       <div className="users-container">
-        {Object.keys(users).map((userId) => {
-          const u = users[userId];
-          return (
-            <div key={u.id} className="users-user-item">
-              <div className="users-user-item-name">{u.name}</div>
-              <div className="users-user-item-count">
-                {`Sub count: ${Object.keys(u.profileStock).length}`}
-              </div>
-              <button type="button" onClick={() => this.onUserClick(u)}>
-                {activeUserId === u.id ? 'Deselect' : 'Select'}
-              </button>
-            </div>
-          );
-        })}
+        {users.map(u => (
+          <div key={u.id} className="users-user-item">
+            <div className="users-user-item-name">{u.name}</div>
+            <button type="button" onClick={() => this.onUserClick(u)}>
+                Select
+            </button>
+          </div>
+        ))}
       </div>
     );
   }
 }
 
 Users.defaultProps = {
-  activeUserId: undefined
 };
 
 Users.propTypes = {
-  activeUserId: PropTypes.string,
-  users: PropTypes.shape({}).isRequired,
-  setActiveUser: PropTypes.func.isRequired,
-  clearActiveUser: PropTypes.func.isRequired
+  users: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  loadUser: PropTypes.func.isRequired,
+  history: PropTypes.shape({}).isRequired
 };
 
 const mapStateToProps = state => ({
-  activeUserId: getActiveUserId(state),
   users: state.user.users
 });
 
 const mapDispatchToProps = dispatch => ({
-  setActiveUser: user => dispatch(userActions.setActiveUser(user)),
-  clearActiveUser: () => dispatch(userActions.clearActiveUser())
+  loadUser: (user, history) => dispatch(userActions.loadUser(user, history))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

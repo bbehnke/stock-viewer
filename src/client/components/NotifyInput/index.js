@@ -21,6 +21,7 @@ class NotifyInput extends React.Component {
 
   render() {
     const { value } = this.state;
+    const { renderSubmit, renderDisable } = this.props;
     return (
       <div className="notify-input-container">
         <div>Notify me when price is the same for</div>
@@ -31,16 +32,22 @@ class NotifyInput extends React.Component {
           }
         </select>
         <div>days</div>
+        {renderSubmit()}
+        {renderDisable()}
       </div>
     );
   }
 }
 
 NotifyInput.defaultProps = {
+  renderSubmit: () => {},
+  renderDisable: () => {},
   onChange: () => {}
 };
 
 NotifyInput.propTypes = {
+  renderSubmit: PropTypes.func,
+  renderDisable: PropTypes.func,
   onChange: PropTypes.func
 };
 

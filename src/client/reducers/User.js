@@ -1,36 +1,32 @@
 export default (state = { users: {} }, action) => {
   const { type, data } = action;
-  let users;
-  let profileStock;
-  let userId;
   switch (type) {
     case 'SET_USERS':
-      users = {};
-      data.users.forEach((user) => {
-        users[user.id] = user;
-      });
       return {
         ...state,
-        users
+        users: data.users
       };
     case 'SET_ACTIVE_USER':
       return {
         ...state,
-        activeUser: data.activeUser
+        user: data.user
+      };
+    case 'SET_ACTIVE_USER_STOCK':
+      return {
+        ...state,
+        stock: data.stock,
+      };
+    case 'SET_ACTIVE_USER_NOTIFICATIONS':
+      return {
+        ...state,
+        notifications: data.notifications,
       };
     case 'CLEAR_ACTIVE_USER':
       return {
         ...state,
-        activeUser: undefined
-      };
-    case 'UPDATE_USER_PROFILE':
-      userId = state.activeUser.id;
-      users = { ...state.users };
-      ({ profileStock } = data);
-      users[userId].profileStock = profileStock;
-      return {
-        ...state,
-        users
+        user: undefined,
+        stock: undefined,
+        notifications: undefined
       };
     default:
       return state;

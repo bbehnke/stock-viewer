@@ -7,17 +7,31 @@ import Nav from './components/Nav';
 import Profile from './components/Profile';
 import Stock from './components/Stock';
 import Users from './components/Users';
-import { mainActions } from './actions';
-import { USERS, PROFILE, STOCK } from './routes';
+import { mainActions, userActions } from './actions';
+import {
+  USERS, PROFILE, STOCK, NOTIFCATIONS
+} from './routes';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onNavItemClick = this.onNavItemClick.bind(this);
+  }
+
   componentDidMount() {
     const { initialize } = this.props;
     initialize();
   }
 
+  onNavItemClick(path) {
+    const { clearActiveUser } = this.props;
+    if (path === 'back') {
+      clearActiveUser();
+    }
+  }
+
   render() {
-    const { isLoading, activeUser } = this.props;
+    const { isLoading, user } = this.props;
     return (
       <div className="app-container">
         <div className="app-header">
@@ -25,19 +39,21 @@ class App extends React.Component {
         </div>
         <div className="app-content">
           <MemoryRouter
-            initialEntries={[USERS, PROFILE, STOCK]}
+            initialEntries={[USERS, STOCK, PROFILE, NOTIFCATIONS]}
             initialIndex={0}
           >
             {isLoading && <div>Loading...</div>}
             {!isLoading && [
               <Nav
                 key="nav"
-                enableAll={typeof activeUser !== 'undefined'}
+                enableAll={typeof user !== 'undefined'}
+                onNavItemClick={this.onNavItemClick}
               />,
               <div key="routes" className="app-content-main">
                 <Route path={USERS} component={Users} />
-                <Route path={PROFILE} component={Profile} />
                 <Route path={STOCK} component={Stock} />
+                <Route path={PROFILE} component={Profile} />
+                <Route path={NOTIFCATIONS} component={Profile} />
               </div>
             ]}
           </MemoryRouter>
@@ -48,26 +64,24 @@ class App extends React.Component {
 }
 
 App.defaultProps = {
-  activeUser: undefined
+  user: undefined
 };
 
 App.propTypes = {
   isLoading: PropTypes.bool.isRequired,
-  activeUser: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    profileStock: PropTypes.shape({})
-  }),
-  initialize: PropTypes.func.isRequired
+  user: PropTypes.shape({}),
+  initialize: PropTypes.func.isRequired,
+  clearActiveUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   isLoading: state.page.loading,
-  activeUser: state.user.activeUser
+  user: state.user.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  initialize: () => dispatch(mainActions.initialize())
+  initialize: () => dispatch(mainActions.initialize()),
+  clearActiveUser: () => dispatch(userActions.clearActiveUser())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

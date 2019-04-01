@@ -1,7 +1,6 @@
 const addStockToProfile = (
   userId,
-  stockId,
-  stockName
+  stockId
 ) => fetch('/api/user/stock/add', {
   method: 'POST',
   mode: 'cors',
@@ -10,7 +9,7 @@ const addStockToProfile = (
     'Content-Type': 'application/json',
   },
   referrer: 'no-referrer',
-  body: JSON.stringify({ userId, stockId, stockName }),
+  body: JSON.stringify({ userId, stockId }),
 })
   .then(res => res.json())
   .then(data => ({ data }))

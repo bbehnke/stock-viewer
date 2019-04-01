@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './Stock.css';
 import StockViewer from '../StockViewer';
 import { userActions } from '../../actions';
-import { getStockList } from '../../selectors';
+import { getUserStockMap } from '../../selectors';
 
 class Stock extends React.Component {
   constructor(props) {
@@ -15,18 +15,18 @@ class Stock extends React.Component {
   }
 
   onAddClick(s) {
-    const { addStockToProfile, activeUser } = this.props;
-    addStockToProfile(activeUser, s);
+    const { addStockToProfile } = this.props;
+    addStockToProfile(s);
   }
 
   onRemoveClick(s) {
-    const { removeStockFromProfile, activeUser } = this.props;
-    removeStockFromProfile(activeUser, s);
+    const { removeStockFromProfile } = this.props;
+    removeStockFromProfile(s);
   }
 
   renderStockActions(s) {
-    const { activeUser: { profileStock } } = this.props;
-    if (profileStock[s.id]) {
+    const { userStockMap } = this.props;
+    if (userStockMap[s.id]) {
       return (
         <button type="button" onClick={() => this.onRemoveClick(s)}>
           Remove from profile
@@ -57,14 +57,14 @@ Stock.defaultProps = {};
 
 Stock.propTypes = {
   stock: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  activeUser: PropTypes.shape({}).isRequired,
+  userStockMap: PropTypes.shape({}).isRequired,
   addStockToProfile: PropTypes.func.isRequired,
   removeStockFromProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  stock: getStockList(state),
-  activeUser: state.user.activeUser
+  stock: state.stock.stock,
+  userStockMap: getUserStockMap(state)
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -5,10 +5,32 @@ const setUsers = users => ({
   }
 });
 
+const loadUser = (user, history) => ({
+  type: 'LOAD_USER',
+  data: {
+    user,
+    history
+  }
+});
+
 const setActiveUser = user => ({
   type: 'SET_ACTIVE_USER',
   data: {
-    activeUser: user
+    user
+  }
+});
+
+const setActiveUserStock = stock => ({
+  type: 'SET_ACTIVE_USER_STOCK',
+  data: {
+    stock
+  }
+});
+
+const setActiveUserNotifications = notifications => ({
+  type: 'SET_ACTIVE_USER_NOTIFICATIONS',
+  data: {
+    notifications
   }
 });
 
@@ -16,35 +38,40 @@ const clearActiveUser = () => ({
   type: 'CLEAR_ACTIVE_USER'
 });
 
-const addStockToProfile = (user, stock) => ({
+const addStockToProfile = stock => ({
   type: 'ADD_TO_PROFILE',
   data: {
-    userId: user.id,
-    stockId: stock.id,
-    stockName: stock.name
-  }
-});
-
-const removeStockFromProfile = (user, stock) => ({
-  type: 'REMOVE_FROM_PROFILE',
-  data: {
-    userId: user.id,
     stockId: stock.id
   }
 });
 
-const updateUserProfile = profileStock => ({
-  type: 'UPDATE_USER_PROFILE',
+const removeStockFromProfile = stock => ({
+  type: 'REMOVE_FROM_PROFILE',
   data: {
-    profileStock
+    stockId: stock.id
   }
+});
+
+const setNotifyDays = notifyDays => ({
+  type: 'SET_NOTIFY_DAYS',
+  data: {
+    notifyDays
+  }
+});
+
+const disableNotifyDays = () => ({
+  type: 'DISABLE_NOTIFY_DAYS'
 });
 
 export default {
   setUsers,
+  loadUser,
   setActiveUser,
+  setActiveUserStock,
+  setActiveUserNotifications,
   clearActiveUser,
   addStockToProfile,
   removeStockFromProfile,
-  updateUserProfile
+  setNotifyDays,
+  disableNotifyDays
 };

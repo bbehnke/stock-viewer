@@ -1,5 +1,5 @@
 const removeStockFromProfile = (userId, stockId) => fetch('/api/user/stock/remove', {
-  method: 'POST',
+  method: 'DELETE',
   mode: 'cors',
   cache: 'no-cache',
   headers: {
