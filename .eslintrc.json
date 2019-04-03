@@ -9,5 +9,12 @@
     "no-console": "off",
     "comma-dangle": "off",
     "react/jsx-filename-extension": "off"
+  },
+  "globals": {
+    "jest": "readonly",
+    "describe": "readonly",
+    "it": "readonly",
+    "expect": "readonly",
+    "beforeEach": "readonly"
   }
 }

@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button tests renders Button 1`] = `
+<Button
+  className="test-class"
+  disabled={false}
+  onClick={[Function]}
+  value="test-value"
+>
+  <button
+    className="stock-viewer-button test-class"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    test-value
+  </button>
+</Button>
+`;
+
+exports[`Button tests renders Button disabled 1`] = `
+<Button
+  className="test-class"
+  disabled={true}
+  onClick={[Function]}
+  value="test-value"
+>
+  <button
+    className="stock-viewer-button test-class"
+    disabled={true}
+    onClick={[Function]}
+    type="button"
+  >
+    test-value
+  </button>
+</Button>
+`;
